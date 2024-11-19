@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Models\Goods;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\GoodsExport;
 
 use App\Services\GoodsService;
 
@@ -19,7 +23,7 @@ class GoodsController extends Controller
     public function index(Request $request)
     {
         try {
-            $pageSize = $request->input('limit', 100);
+            $pageSize = $request->input('limit', 10);
             $sort = $request->input('sort', '');
             $where = [];
 
@@ -87,14 +91,22 @@ class GoodsController extends Controller
     /**
      * export
      * @param Request $request
-     * @return JsonResponse
+     * @return mixed
      */
     public function export(Request $request)
     {
         try {
-            $info = GoodsService::where('status', 0)->orderBy('id', 'asc')->first();
-
-            return success($info ? new GoodsResource($info) : []);
+            $type = $request->input('type', 'excel');
+            $data = Goods::get();
+            $fileName = date('YmdHis') . '-goods';
+            if ($type == 'excel') {
+                return Excel::download(new GoodsExport($data->toArray()), $fileName . '.xlsx');
+            } else {
+                $jsonContent = $data->toJson();
+                return response($jsonContent)
+                    ->header('Content-Type', 'application/json')
+                    ->header('Content-Disposition', 'attachment; filename=' . $fileName . '.json');
+            }
         } catch (\Exception $e) {
             return failed($e->getMessage(), $e->getCode());
         }

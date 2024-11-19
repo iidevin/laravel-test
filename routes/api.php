@@ -22,19 +22,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// 接口V1
+// apiV1
 Route::prefix('v1')->group(function () {
-    //无需认证
+    //no need auth
     Route::any('test', [IndexController::class, 'test']);
     Route::post('user/login', [UserController::class, 'login']);
     Route::post('uploads', [IndexController::class, 'uploads']);
+    Route::get('goods/export', [GoodsController::class, 'export']);
     Route::apiResource('index', IndexController::class);
-    //登陆认证
+    //need auth
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('user/info', [UserController::class, 'info']);
         Route::post('user/logout', [UserController::class, 'logout']);
-        Route::apiResource('sqlLog', SqlLogController::class);
-        Route::post('goods/export', [GoodsController::class, 'export']);
         Route::apiResource('goods', GoodsController::class);
+        Route::apiResource('sqlLog', SqlLogController::class);
     });
 });
