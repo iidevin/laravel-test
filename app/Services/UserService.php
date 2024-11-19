@@ -13,10 +13,6 @@ class UserService
     /** @var User */
     public static $Model = User::CLASS;
 
-    public static function options()
-    {
-        return User::where(['status' => 1])->orderBy('sort')->pluck('title', 'id');
-    }
 
     public static function add($name, $password)
     {
@@ -34,10 +30,10 @@ class UserService
             /** @var User $user */
             $user = User::where(['name' => $name])->first();
             if (empty($user)) {
-                throw new \Exception('用户不存在');
+                throw new \Exception('user not exists');
             }
             if (!Hash::check($password, $user->password)) {
-                throw new \Exception('密码错误');
+                throw new \Exception('password error');
             }
 
             return $user->createToken($user->id)->plainTextToken;

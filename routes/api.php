@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\IndexController;
+use App\Http\Controllers\Api\V1\GoodsController;
+use App\Http\Controllers\Api\V1\SqlLogController;
 use App\Http\Controllers\Api\V1\UserController;
 
 /*
@@ -31,9 +33,8 @@ Route::prefix('v1')->group(function () {
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('user/info', [UserController::class, 'info']);
         Route::post('user/logout', [UserController::class, 'logout']);
-        Route::get('videoLog/checkResult', [VideoLogController::class, 'checkResult']);
-        Route::apiResource('videoLog', VideoLogController::class);
-        Route::post('videoMonitor/abnormalCheck', [VideoMonitorController::class, 'abnormalCheck']);
-        Route::apiResource('videoMonitor', VideoMonitorController::class);
+        Route::apiResource('sqlLog', SqlLogController::class);
+        Route::post('goods/export', [GoodsController::class, 'export']);
+        Route::apiResource('goods', GoodsController::class);
     });
 });

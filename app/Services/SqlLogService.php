@@ -2,18 +2,14 @@
 
 namespace App\Services;
 
-use App\Models\VideoLog;
+use App\Models\SqlLog;
 use App\Traits\ServiceTrait;
 
 class SqlLogService
 {
     use ServiceTrait;
 
-    /** @var VideoLog */
-    public static $Model = VideoLog::CLASS;
+    /** @var  */
+    public static $Model = SqlLog::CLASS;
 
-    public static function options()
-    {
-        return VideoLog::where(['status' => 1])->orderBy('sort')->pluck('title', 'id');
-    }
 }
