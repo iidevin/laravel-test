@@ -9,7 +9,18 @@ class SqlLogService
 {
     use ServiceTrait;
 
-    /** @var  */
+    /** @var SqlLog */
     public static $Model = SqlLog::CLASS;
+
+    public static function createLog($user, $sql, $result = 'OK')
+    {
+        $data = [
+            'user' => $user,
+            'sql' => $sql,
+            'result' => $result,
+        ];
+
+        return self::$Model::create($data);
+    }
 
 }

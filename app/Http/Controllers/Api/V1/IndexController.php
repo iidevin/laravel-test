@@ -12,13 +12,7 @@ class IndexController extends Controller
      */
     public function index(Request $request)
     {
-        try {
-            $id = $request->input('id', 0);
-
-            return success();
-        } catch (\Exception $e) {
-            return failed($e->getMessage(), $e->getCode());
-        }
+        return redirect()->to('/admin/index.html');
     }
 
     /**

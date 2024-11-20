@@ -13,7 +13,7 @@ use App\Http\Resources\SqlLogResource;
 class SqlLogController extends Controller
 {
     /**
-     * 检测结果日志列表
+     *
      * Display a listing of the resource.
      */
     public function index(Request $request)
@@ -21,7 +21,10 @@ class SqlLogController extends Controller
         try {
             $pageSize = $request->input('limit', 100);
             $sort = $request->input('sort', '');
-            $where = [];
+            $word = $request->input('word', '');
+            $where = [
+                ['sql', 'like', "%$word%"]
+            ];
 
             $list = SqlLogService::getList($where, $pageSize, $sort ? [substr($sort, 1), str_starts_with($sort, '+') ? 'asc' : 'desc'] : ['id', 'desc']);
 
@@ -79,27 +82,6 @@ class SqlLogController extends Controller
         try {
             SqlLogService::destroy($id);
             return success();
-        } catch (\Exception $e) {
-            return failed($e->getMessage(), $e->getCode());
-        }
-    }
-
-    /**
-     * 查询检测结果
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function checkResult(Request $request)
-    {
-        try {
-
-            $info = SqlLogService::where('status', 0)->orderBy('id', 'asc')->first();
-            if ($info) {
-                $info->status = 1;
-                $info->save();
-            }
-
-            return success($info ? new SqlLogResource($info) : []);
         } catch (\Exception $e) {
             return failed($e->getMessage(), $e->getCode());
         }

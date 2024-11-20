@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 
-class GoodsExport implements FromCollection, WithHeadings, WithMapping, Responsable
+class GoodsExport implements FromCollection
 {
     use Exportable;
     protected $data;

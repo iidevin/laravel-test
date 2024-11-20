@@ -40,9 +40,9 @@ class UserController extends Controller
     {
         try {
             $user = auth()->user();
-
+            $ros = array_column($user->roles->toArray(), 'name');
             $data = [
-                'roles' => ['admin'],
+                'roles' => $ros,
                 'introduction' => $user->intro ?? '',
                 'avatar' => $user->avatar ?? '',
                 'name' => $user->name ?? '',
