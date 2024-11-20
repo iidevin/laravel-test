@@ -6,6 +6,30 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
+## Laravel-test install description
+
+### The technology stack includes Laravel 10.0  Vue2  Element UI
+
+step1：install packages
+
+```bash
+composer install
+```
+
+step2：create database tables, admin account with permission RBAC,test Data...
+
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+step3：index route
+
+```
+http://yourdomain/dev
+```
+
+
 
 ## About Laravel
 
